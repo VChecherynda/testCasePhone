@@ -1,10 +1,12 @@
-import { Check, Star } from "lucide-react";
+import { ArrowRight, Check, Star } from "lucide-react";
 import Image from "next/image";
 
 import MaxWidthWrapper from "./components/MaxWidthWrapper";
 import Phone from "./components/Phone";
 import Reviews from "./components/Reviews";
 import { Icons } from "./components/Icons";
+import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -228,6 +230,62 @@ export default function Home() {
                 now
               </h2>
             </div>
+          </div>
+
+          <div className="mx-auto max-w-6xl px-6 lg:px-8">
+            <div className="relative flex grid-cols-2 flex-col items-center gap-40 md:grid">
+              <Image
+                width="126"
+                height="31"
+                src="/arrow.png"
+                alt="arrow"
+                className="absolute left-1/2 top-[25rem] z-10 -translate-x-1/2 -translate-y-1/2 rotate-90 md:top-1/2 md:rotate-0"
+              />
+
+              <div className="relative h-80 w-full max-w-sm rounded-xl bg-gray-900/5 ring-inset ring-gray-900/10 md:h-full md:justify-self-end lg:rounded-2xl">
+                <Image
+                  width="100"
+                  height="100"
+                  src="/horse.jpg"
+                  alt="horse"
+                  className="h-full w-full rounded-md bg-white object-cover shadow-2xl ring-1 ring-gray-900/10"
+                />
+              </div>
+
+              <Phone className="w-60" imgSrc="/horse_phone.jpg" />
+            </div>
+          </div>
+
+          <ul className="mx-auto mt-12 w-fit max-w-prose space-y-2 sm:text-lg">
+            <li className="w-fit">
+              <Check className="5 mr-1 inline h-5 w-5 text-green-600" />
+              High-quality silicone material
+            </li>
+            <li className="w-fit">
+              <Check className="5 mr-1 inline h-5 w-5 text-green-600" />
+              Scratch and fingerprint resistant coating
+            </li>
+            <li className="w-fit">
+              <Check className="5 mr-1 inline h-5 w-5 text-green-600" />
+              Wireless charging compatible
+            </li>
+            <li className="w-fit">
+              <Check className="5 mr-1 inline h-5 w-5 text-green-600" />5 year
+              print warranty
+            </li>
+          </ul>
+
+          <div className="flex justify-center">
+            <Link
+              href="/configure/upload"
+              className={buttonVariants({
+                size: "lg",
+                className: "mx-auto mt-8",
+              })}
+            >
+              Create your case now
+              <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
           </div>
         </MaxWidthWrapper>
       </section>
