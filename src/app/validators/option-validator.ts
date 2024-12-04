@@ -38,7 +38,7 @@ export const MATERIALS = {
       price: PRODUCT_PRICES.material.polycabonate,
     },
   ],
-};
+} as const;
 
 export const FINISHES = {
   name: "finish",
@@ -56,4 +56,4 @@ export const FINISHES = {
       price: PRODUCT_PRICES.finish.textured,
     },
   ],
-};
+} as const;

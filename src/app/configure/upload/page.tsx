@@ -19,7 +19,7 @@ export default function Page() {
 
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
-      const { configId } = data.serverData;
+      const { configId } = data.serverData ?? {};
 
       console.log("[configId]", configId);
 
