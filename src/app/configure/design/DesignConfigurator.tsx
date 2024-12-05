@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createElement, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import HandleComponent from "@/app/components/HandleComponent";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -137,7 +137,7 @@ const DesignConfigurator = ({
       const file = new File([blob], "filename.png", { type: "image/png" });
 
       await startUpload([file], { configId });
-    } catch (err) {
+    } catch {
       toast({
         title: "Something went wrong",
         description: "There was a problem saving your config, please try again",
