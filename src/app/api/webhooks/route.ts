@@ -9,6 +9,8 @@ export async function POST(req: Request) {
     const body = await req.text();
     const signature = (await headers()).get("stripe-signature");
 
+    console.log("[signature]", signature);
+
     if (!signature) {
       return new Response("Invalid signature", { status: 400 });
     }
@@ -44,7 +46,7 @@ export async function POST(req: Request) {
         },
         data: {
           isPaid: true,
-          ShipingAddress: {
+          ShippingAddress: {
             create: {
               name: session.customer_details!.name!,
               city: shippingAddress!.city!,
@@ -54,7 +56,7 @@ export async function POST(req: Request) {
               state: shippingAddress!.state!,
             },
           },
-          BillinAddress: {
+          BillingAddress: {
             create: {
               name: session.customer_details!.name!,
               city: billingAddress!.city!,

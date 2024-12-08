@@ -63,24 +63,24 @@ model User {
 }
 
 model Order {
-  id               String          @id @default(cuid())
+  id               String           @id @default(cuid())
   configurationId  String
-  configuration    Configuration   @relation(fields: [configurationId], references: [id])
-  user             User            @relation(fields: [userId], references: [id])
+  configuration    Configuration    @relation(fields: [configurationId], references: [id])
+  user             User             @relation(fields: [userId], references: [id])
   userId           String
   amount           Float
-  isPaid           Boolean         @default(false)
-  status           OrderStatus     @default(awaiting_shipment)
-  ShipingAddress   ShipingAddress? @relation(fields: [shipingAddressId], references: [id])
+  isPaid           Boolean          @default(false)
+  status           OrderStatus      @default(awaiting_shipment)
+  ShippingAddress  ShippingAddress? @relation(fields: [shipingAddressId], references: [id])
   shipingAddressId String?
-  BillinAddress    BillinAddress?  @relation(fields: [billinAddressId], references: [id])
-  billinAddressId  String?
+  BillingAddress   BillingAddress?  @relation(fields: [billingAddressId], references: [id])
+  billingAddressId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model ShipingAddress {
+model ShippingAddress {
   id          String  @id @default(cuid())
   name        String
   street      String
@@ -92,7 +92,7 @@ model ShipingAddress {
   orders      Order[]
 }
 
-model BillinAddress {
+model BillingAddress {
   id          String  @id @default(cuid())
   name        String
   street      String
