@@ -37,7 +37,8 @@ export async function POST(req: Request) {
       }
 
       const billingAddress = session.customer_details!.address;
-      const shippingAddress = session.shipping_details!.address;
+      // @ts-expect-error:next-line
+      const shippingAddress = session.shipping!.address;
 
       await db.order.update({
         where: {

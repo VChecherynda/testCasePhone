@@ -19,8 +19,6 @@ function ThankYou() {
     retryDelay: 500,
   });
 
-  console.log("[data]", data);
-
   if (data === undefined) {
     return (
       <div className="mt-24 flex w-full justify-center">
