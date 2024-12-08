@@ -8,11 +8,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.text();
 
-    console.log("[body]", body);
-
     const signature = (await headers()).get("stripe-signature");
-
-    console.log("[signature]", signature);
 
     if (!signature) {
       return new Response("Invalid signature", { status: 400 });
@@ -80,6 +76,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         message: "Something went wrong",
+        err: err,
         ok: false,
       },
       {
