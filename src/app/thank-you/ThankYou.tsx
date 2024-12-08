@@ -45,7 +45,7 @@ function ThankYou() {
     );
   }
 
-  const { configuration, BillinAddress, ShipingAddress, amount } = data;
+  const { configuration, BillingAddress, ShippingAddress, amount } = data;
   const { color } = configuration;
 
   return (
@@ -92,10 +92,10 @@ function ThankYou() {
 
                 <div className="mt-2 text-zinc-700">
                   <address className="not-italic">
-                    <span className="block">{ShipingAddress?.name}</span>
-                    <span className="block">{ShipingAddress?.street}</span>
+                    <span className="block">{ShippingAddress?.name}</span>
+                    <span className="block">{ShippingAddress?.street}</span>
                     <span className="block">
-                      {ShipingAddress?.postalCode} {ShipingAddress?.city}
+                      {ShippingAddress?.postalCode} {ShippingAddress?.city}
                     </span>
                   </address>
                 </div>
@@ -106,10 +106,10 @@ function ThankYou() {
 
                 <div className="mt-2 text-zinc-700">
                   <address className="not-italic">
-                    <span className="block">{BillinAddress?.name}</span>
-                    <span className="block">{BillinAddress?.street}</span>
+                    <span className="block">{BillingAddress?.name}</span>
+                    <span className="block">{BillingAddress?.street}</span>
                     <span className="block">
-                      {BillinAddress?.postalCode} {BillinAddress?.city}
+                      {BillingAddress?.postalCode} {BillingAddress?.city}
                     </span>
                   </address>
                 </div>
