@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
     try {
       event = stripe.webhooks.constructEvent(
-        body,
+        Buffer.from(body, "utf-8"),
         signature,
         process.env.STRIPE_WEBHOOK_SECRET!,
       );
