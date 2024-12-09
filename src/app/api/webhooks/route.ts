@@ -14,7 +14,7 @@ async function streamToBuffer(readableStream: Readable): Promise<Buffer> {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    // const body = await req.json();
     const signature = req.headers.get("stripe-signature");
 
     if (!signature) {
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
     try {
       event = stripe.webhooks.constructEvent(
-        body,
+        "test",
         signature,
         process.env.STRIPE_WEBHOOK_SECRET!,
       );
