@@ -7,19 +7,34 @@ import Stripe from "stripe";
 export async function POST(req: Request) {
   try {
     const body = await req.text();
-    const signature = (await headers()).get("stripe-signature");
+    const signature = req.headers.get("stripe-signature");
 
     if (!signature) {
       return new Response("Invalid signature", { status: 400 });
     }
 
-    const event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!,
-    );
+    let event = null;
 
-    if (event.type === "checkout.session.completed") {
+    try {
+      event = stripe.webhooks.constructEvent(
+        body,
+        signature,
+        process.env.STRIPE_WEBHOOK_SECRET!,
+      );
+    } catch (err) {
+      return NextResponse.json(
+        {
+          message: "Problem with create event",
+          err: err,
+          ok: false,
+        },
+        {
+          status: 500,
+        },
+      );
+    }
+
+    if (event && event.type === "checkout.session.completed") {
       if (!event.data.object.customer_details?.email) {
         throw new Error("Missing user email");
       }
@@ -68,10 +83,11 @@ export async function POST(req: Request) {
             },
           },
         });
-      } catch (e) {
+      } catch (err) {
         return NextResponse.json(
           {
             message: "Problem with update db",
+            err: err,
             ok: false,
           },
           {
@@ -79,14 +95,16 @@ export async function POST(req: Request) {
           },
         );
       }
+
+      return NextResponse.json({ result: event, ok: true });
     }
-    return NextResponse.json({ result: event, ok: true });
   } catch (err) {
     console.error(err);
 
     return NextResponse.json(
       {
-        message: "SOMETHING WRONG 123",
+        message: "Something went wrong",
+        err: err,
         ok: false,
       },
       {
