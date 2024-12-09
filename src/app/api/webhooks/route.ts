@@ -1,11 +1,20 @@
 import { db } from "@/db";
 import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
+import { Readable } from "stream";
 import Stripe from "stripe";
+
+async function streamToBuffer(readableStream: Readable): Promise<Buffer> {
+  const chunks: Buffer[] = [];
+  for await (const chunk of readableStream) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks);
+}
 
 export async function POST(req: Request) {
   try {
-    const body = await req.text();
+    const body = await req.json();
     const signature = req.headers.get("stripe-signature");
 
     if (!signature) {
@@ -16,7 +25,7 @@ export async function POST(req: Request) {
 
     try {
       event = stripe.webhooks.constructEvent(
-        Buffer.from(body, "utf-8"),
+        body,
         signature,
         process.env.STRIPE_WEBHOOK_SECRET!,
       );
