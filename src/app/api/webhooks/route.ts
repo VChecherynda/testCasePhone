@@ -21,6 +21,19 @@ export async function POST(req: Request) {
         process.env.STRIPE_WEBHOOK_SECRET!,
       );
     } catch (err) {
+      let errorMessage = "Unknown error occurred";
+
+      // Type narrowing for `err`
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (typeof err === "string") {
+        errorMessage = err; // If it's a string
+      } else if (typeof err === "object" && err !== null) {
+        errorMessage = JSON.stringify(err); // Try to stringify object errors
+      }
+
+      console.error("Error constructing Stripe event:", err);
+
       return NextResponse.json(
         {
           message: "Problem with create event",
