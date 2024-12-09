@@ -7,7 +7,6 @@ import Stripe from "stripe";
 export async function POST(req: Request) {
   try {
     const body = await req.text();
-
     const signature = (await headers()).get("stripe-signature");
 
     if (!signature) {
@@ -40,44 +39,54 @@ export async function POST(req: Request) {
       // @ts-expect-error:next-line
       const shippingAddress = session.shipping!.address;
 
-      await db.order.update({
-        where: {
-          id: orderId,
-        },
-        data: {
-          isPaid: true,
-          ShippingAddress: {
-            create: {
-              name: session.customer_details!.name!,
-              city: shippingAddress!.city!,
-              country: shippingAddress!.country!,
-              postalCode: shippingAddress!.postal_code!,
-              street: shippingAddress!.line1!,
-              state: shippingAddress!.state!,
+      try {
+        await db.order.update({
+          where: {
+            id: orderId,
+          },
+          data: {
+            isPaid: true,
+            ShippingAddress: {
+              create: {
+                name: session.customer_details!.name!,
+                city: shippingAddress!.city!,
+                country: shippingAddress!.country!,
+                postalCode: shippingAddress!.postal_code!,
+                street: shippingAddress!.line1!,
+                state: shippingAddress!.state!,
+              },
+            },
+            BillingAddress: {
+              create: {
+                name: session.customer_details!.name!,
+                city: billingAddress!.city!,
+                country: billingAddress!.country!,
+                postalCode: billingAddress!.postal_code!,
+                street: billingAddress!.line1!,
+                state: billingAddress!.state!,
+              },
             },
           },
-          BillingAddress: {
-            create: {
-              name: session.customer_details!.name!,
-              city: billingAddress!.city!,
-              country: billingAddress!.country!,
-              postalCode: billingAddress!.postal_code!,
-              street: billingAddress!.line1!,
-              state: billingAddress!.state!,
-            },
+        });
+      } catch (e) {
+        return NextResponse.json(
+          {
+            message: "Problem with update db",
+            ok: false,
           },
-        },
-      });
-
-      return NextResponse.json({ result: event, ok: true });
+          {
+            status: 500,
+          },
+        );
+      }
     }
+    return NextResponse.json({ result: event, ok: true });
   } catch (err) {
     console.error(err);
 
     return NextResponse.json(
       {
-        message: "Something went wrong",
-        err: err,
+        message: "SOMETHING WRONG 123",
         ok: false,
       },
       {

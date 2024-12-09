@@ -48,8 +48,6 @@ export const createCheckoutSession = async ({
     },
   });
 
-  debugger;
-
   if (existingOrder) {
     order = existingOrder;
   } else {
