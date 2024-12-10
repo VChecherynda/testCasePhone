@@ -1,21 +1,16 @@
 import { db } from "@/db";
 import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
-import { Readable } from "stream";
 import Stripe from "stripe";
-
-async function streamToBuffer(readableStream: Readable): Promise<Buffer> {
-  const chunks: Buffer[] = [];
-  for await (const chunk of readableStream) {
-    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-  }
-  return Buffer.concat(chunks);
-}
 
 export async function POST(req: Request) {
   try {
-    // const body = await req.json();
+    const body = await req.text();
     const signature = req.headers.get("stripe-signature");
+
+    if (!body) {
+      return new Response("Invalid body", { status: 400 });
+    }
 
     if (!signature) {
       return new Response("Invalid signature", { status: 400 });
@@ -25,24 +20,11 @@ export async function POST(req: Request) {
 
     try {
       event = stripe.webhooks.constructEvent(
-        "test",
+        body,
         signature,
         process.env.STRIPE_WEBHOOK_SECRET!,
       );
     } catch (err) {
-      let errorMessage = "Unknown error occurred";
-
-      // Type narrowing for `err`
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      } else if (typeof err === "string") {
-        errorMessage = err; // If it's a string
-      } else if (typeof err === "object" && err !== null) {
-        errorMessage = JSON.stringify(err); // Try to stringify object errors
-      }
-
-      console.error("Error constructing Stripe event:", err);
-
       return NextResponse.json(
         {
           message: "Problem with create event",
@@ -116,9 +98,9 @@ export async function POST(req: Request) {
           },
         );
       }
-
-      return NextResponse.json({ result: event, ok: true });
     }
+
+    return NextResponse.json({ result: event, ok: true });
   } catch (err) {
     console.error(err);
 
