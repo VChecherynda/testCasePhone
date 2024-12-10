@@ -28,6 +28,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           message: "Problem with create event",
+          type: event?.type,
           err: err,
           ok: false,
         },
