@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 
 import { useUploadThing } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
-import { Progress } from "@radix-ui/react-progress";
+import { Progress } from "@/components/ui/progress";
 import { Image, Loader2, MousePointerSquareDashed } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Dropzone, { FileRejection } from "react-dropzone";
@@ -88,7 +88,7 @@ export default function Page() {
               <div className="mb-2 flex flex-col justify-center text-sm text-zinc-700">
                 {isUploading ? (
                   <div className="flex flex-col items-center">
-                    <p>Uploading...{uploadProgress}</p>
+                    <p>Uploading...</p>
                     <Progress
                       value={uploadProgress}
                       className="mt-2 h-2 w-40 bg-gray-300"
