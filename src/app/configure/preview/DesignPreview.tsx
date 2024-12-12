@@ -44,7 +44,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     totalPrice += PRODUCT_PRICES.finish.textured;
   }
 
-  const { mutate: createPaymentSession } = useMutation({
+  const { mutate: createPaymentSession, isPending } = useMutation({
     mutationKey: ["get-checkout-session"],
     mutationFn: createCheckoutSession,
     onSuccess: ({ url }) => {
@@ -90,12 +90,15 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 
       <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
 
-      <div className="mt-20 grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-8 md:gap-x-8 lg:gap-x-12">
+      <div className="mt-20 flex flex-col items-center text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-8 md:grid md:gap-x-8 lg:gap-x-12">
         <div className="sm:col-span-4 md:col-span-3 md:row-span-2 md:row-end-2">
-          <Phone imgSrc={croppedImageUrl!} className={cn(`bg-${tw}`)} />
+          <Phone
+            imgSrc={croppedImageUrl!}
+            className={cn(`bg-${tw}`, "max-w-[150px] md:max-w-full")}
+          />
         </div>
 
-        <div className="mt-6 sm:col-span-9 sm:mt-0 md:row-end-1">
+        <div className="mt-6 sm:col-span-9 md:row-end-1">
           <h3 className="text-3xl font-bold tracking-tight text-gray-900">
             Your {modelLabel} Case
           </h3>
@@ -170,6 +173,9 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
               <Button
                 onClick={() => handleCheckout()}
                 className="px-4 sm:px-6 lg:px-8"
+                isLoading={isPending}
+                disabled={isPending}
+                loadingText="Rederecting"
               >
                 Checkout out <ArrowRight className="ml-1.5 inline h-4 w-4" />
               </Button>
