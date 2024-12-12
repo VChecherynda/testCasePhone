@@ -42,5 +42,6 @@ export function constructMetadata({
       creator: "@vadymchecherynda",
     },
     icons,
+    metadataBase: new URL("https://test-case-phone.vercel.app"),
   };
 }

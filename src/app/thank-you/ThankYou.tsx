@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getPaymentStatus } from "./actions";
+import { getPaymentStatus } from "./action";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import PhonePreview from "../components/PhonePreview";

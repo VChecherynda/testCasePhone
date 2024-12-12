@@ -1,5 +1,3 @@
-"use server";
-
 import {
   Card,
   CardContent,
@@ -29,7 +27,7 @@ const Page = async () => {
 
   const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
-  if (!user.id || user.email !== ADMIN_EMAIL) {
+  if (!user?.id || user?.email !== ADMIN_EMAIL) {
     throw notFound();
   }
 
