@@ -24,9 +24,13 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const router = useRouter();
   const { toast } = useToast();
   const { user } = useKindeBrowserClient();
+
+  console.log("[user/kinde]", user);
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
   const { id, croppedImageUrl, color, model, finish, material } = configuration;
+
   const tw = COLORS.find(
     (supportedColor) => supportedColor.value === color,
   )?.tw;
