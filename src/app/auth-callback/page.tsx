@@ -24,14 +24,16 @@ const Page = () => {
     retryDelay: 500,
   });
 
-  if (data?.success) {
-    if (configId) {
-      localStorage.removeItem("configurationId");
-      router.push(`/configure/preview?id=${configId}`);
-    } else {
-      router.push("/");
+  useEffect(() => {
+    if (data?.success) {
+      if (configId) {
+        localStorage.removeItem("configurationId");
+        router.push(`/configure/preview?id=${configId}`);
+      } else {
+        router.push("/");
+      }
     }
-  }
+  }, [data?.success, configId, router]);
 
   return (
     <div className="mt-24 flex w-full justify-center">
